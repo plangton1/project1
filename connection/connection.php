@@ -1,5 +1,5 @@
 <?php
-$serverName = "PLUEMMER"; //LAPTOP-O7F4B0NM , DESKTOP-R0ETL6G
+$serverName = "LAPTOP-O7F4B0NM"; //LAPTOP-O7F4B0NM , DESKTOP-R0ETL6G
 $user = "pluem";
 $pass = "1234";
 
@@ -17,3 +17,7 @@ if( $conn ) {
 
 
 ?>
+
+
+
+

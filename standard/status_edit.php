@@ -77,11 +77,22 @@ $xx = sqlsrv_fetch_array($query);
                                     <label for="">ไฟล์แนบ</label>
                                     <input type="file" name="file" class="form-control" value="<?php echo $xx["file"] ?>">
                                 </div>
+
+                                <div class="form-group mb-2">
+                                    <label for="">สถานะ</label>
+                                    <input type="text" name="standard_note" class="form-control" >
+                                </div>
+
+                                <div class="form-group mb-2">
+                                    <label for="">วันที่แต่งตั้ง</label>
+                                    <input type="date" name="date" class="form-control">
+                                    
+                                </div>
                             </div>
 
 
                             <!-- หลายฟอร์ม -->
-                            <a href="javascript:void(0)" class="add-more-form float-end btn btn-success">เพิ่มกลุ่มผลิตภัณฑ์</a>
+                            <a href="javascript:void(0)" class="add-more-form float-end btn btn-success">เพิ่ม</a>
                             <div class="main-form mt-3 border-bottom">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -97,7 +108,7 @@ $xx = sqlsrv_fetch_array($query);
                             <!--  -->
 
                             <!-- หลายฟอร์ม -->
-                            <a href="javascript:void(0)" class="add-more-form1 float-end btn btn-success">เพิ่มหน่วยงานที่สามาถทดสอบได้</a>
+                            <a href="javascript:void(0)" class="add-more-form1 float-end btn btn-success">เพิ่ม</a>
                             <div class="main-form1 mt-3 border-bottom">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -114,7 +125,7 @@ $xx = sqlsrv_fetch_array($query);
                             <!--  -->
 
                             <!-- หลายฟอร์ม -->
-                            <a href="javascript:void(0)" class="add-more-form2 float-end btn btn-success">เพิ่มหน่วยงานขอ</a>
+                            <a href="javascript:void(0)" class="add-more-form2 float-end btn btn-success">เพิ่ม</a>
                             <div class="main-form2 mt-3 border-bottom">
                                 <div class="row">
                                     <div class="col-md-4">

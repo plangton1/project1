@@ -10,17 +10,25 @@
 
         $(document).on('click', '.add-more-form', function() {
             $('.paste-new-forms').append('<div class="main-form mt-3">\
-                                <div class="row">\
-                                    <div class="col-md-4">\
-                                        <div class="form-group mb-2">\
-                                            <label for="">กลุ่มผลิตภัณฑ์</label>\
-                                            <input type="text" name="group_name[]" class="form-control" required placeholder="กรอกกลุ่มผลิตภัณฑ์">\
+            <div class="row">\
+                                        <div class="col-md-4">\
+                                            <div class="form-group mb-2">\
+                                                <label for="">กลุ่มผลิตภัณฑ์</label>\
+                                                <select name="group_id[]" id="group_id"> \              
+                                                   ' <?php 
+                                                    $sql = "SELECT * FROM group_tb";
+                                                    $query = sqlsrv_query($conn, $sql);
+                                                    while ($result = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) { ?>
+                                                       <option value="<?php echo $result["group_id"];  ?>"><?php echo $result["group_name"];  ?></option>
+                                                    <?php } ?>'+
+                                                </select>\
+                                            </div>\
                                         </div>\
                                     </div>\
                                     <div class="col-md-4">\
                                         <div class="form-group mb-2">\
                                             <br>\
-                                            <button type="button" class="remove-btn btn btn-danger">Remove</button>\
+                                            <button type="button" class="remove-btn btn btn-danger">ลบ</button>\
                                         </div>\
                                     </div>\
                                 </div>\
@@ -47,7 +55,7 @@
                                     <div class="col-md-4">\
                                         <div class="form-group mb-2">\
                                             <br>\
-                                            <button type="button" class="remove-btn1 btn btn-danger">Remove</button>\
+                                            <button type="button" class="remove-btn1 btn btn-danger">ลบ</button>\
                                         </div>\
                                     </div>\
                                 </div>\
@@ -75,7 +83,7 @@
                         <div class="col-md-4">\
                             <div class="form-group mb-2">\
                                 <br>\
-                                <button type="button" class="remove-btn2 btn btn-danger">Remove</button>\
+                                <button type="button" class="remove-btn2 btn btn-danger">ลบ</button>\
                             </div>\
                         </div>\
                     </div>\

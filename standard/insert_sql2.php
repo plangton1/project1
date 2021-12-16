@@ -1,68 +1,143 @@
 <?php
-require 'connection/connection.php' ; 
-if(isset($_POST['save_multiple_data']))
-{
-    //  echo '<pre>'.var_export($_POST, 1).'</pre>';
-    // $loop = max(count($_POST['group_name']), count($_POST['agency_name']), count($_POST['department_name']));
-    // foreach (range(1, $loop) as $value) {
-    //     $query = "INSERT INTO standard_tb (department_name,agency_name,standard_mandatory,group_name,standard_meet,standard_tacking,standard_number,standard_detail,standard_note) VALUES (?,?,?,?,?,?,?,?,?)";
-    //     echo '<pre>'.$query.'</pre>';
+require '../connection/connection.php';
+
+$mode = $_REQUEST["mode"];
+
+if ($mode == "insert_data") {
+    $standard_meet = $_REQUEST["standard_meet"];
+    $standard_number = $_REQUEST["standard_number"];
+    $standard_detail = $_REQUEST["standard_detail"];
+    $standard_mandatory = $_REQUEST["standard_mandatory"];
+    $standard_tacking = $_REQUEST["standard_tacking"];
+    $standard_note = $_REQUEST["standard_note"];
+    //$file = $_REQUEST["file"];
+    $group_id = $_REQUEST["group_id"];
+    $agency_id = $_REQUEST["agency_id"];
+    $type_id = $_REQUEST["type_id"];
+
+
+
+
+
+
+    // print_r($fname);
+
+    // if (count($fname) > "0") {
+
+    //     foreach ($fname as $first_name) {
+
+    //         if (trim($first_name) != "") {
+    //             //    echo "<br>".$first_name; 
+
+    //              $sql = "INSERT INTO main_user (user_fname,user_lname,user_username,user_password,user_status,user_add_date)
+    //              VALUES ('$fname','$lname','$username','$password','1','$date_today')";
+
+    //             $conn->query($sql);
+    //         }
+    //     }
     // }
-    $loop = max(count($_POST['group_name']), count($_POST['agency_name']), count($_POST['department_name']));
-    $group_name_each = $_POST['group_name'];
-    $group_name = $_POST['group_name'];
-    $department_name = $_POST['department_name'];
-    $agency_name_each = $_POST['agency_name'];
-    $agency_name = $_POST['agency_name'];
-    $department_name_each = $_POST['department_name'];
-    $standard_meet = $_POST['standard_meet'];
-    $standard_number = $_POST['standard_number'];
-    $standard_detail = $_POST['standard_detail'];
-    $standard_tacking = $_POST['standard_tacking'];
-    $standard_note = $_POST['standard_note'];
-    $standard_mandatory = $_POST['standard_mandatory']; 
 
-    foreach (range(0, $loop - 1) as $index) {
+    $sql = "INSERT INTO main_std ( standard_mandatory , standard_meet , standard_tacking , standard_number , standard_detail , standard_note  ) 
+      VALUES ('$standard_mandatory','$standard_meet','$standard_tacking','$standard_number','$standard_detail','$standard_note')";
 
-                        $group_name_each = @$group_name[$index];
-                        $department_name_each = @$department_name[$index];
-                        $agency_name_each = @$agency_name[$index];
-                        $group_name = $group_name;
-                        $agency_name = $agency_name;
-                        $department_name= $department_name;
-                        $standard_meet = $standard_meet;
-                        $standard_number = $standard_number;
-                        $standard_detail = $standard_detail;
-                        $standard_tacking = $standard_tacking;
-                        $standard_note = $standard_note;
-                        $standard_mandatory = $standard_mandatory;
 
-                        $query = "INSERT INTO standard_tb (group_name , department_name , agency_name , standard_mandatory , standard_meet , standard_tacking , standard_number , standard_detail , standard_note ) 
-                        VALUES (? , ? , ? , ? , ? , ? , ? , ? , ?)";
-                        $params = array($group_name_each , $department_name_each , $agency_name_each , $standard_mandatory , $standard_meet , $standard_tacking , $standard_number , $standard_detail , $standard_note );
-                        // echo '<pre>'.var_export($params, 1).'</pre>';
-                        $sss = sqlsrv_query($conn, $query, $params);
+
+    //$conn->query($sql);
+    //sqlsrv_close($conn);
+
+    $stmt = sqlsrv_query($conn, $sql);
+
+    $sqlmaxid = "SELECT @@IDENTITY AS 'Maxid'";
+    $querymax = sqlsrv_query($conn, $sqlmaxid);
+    $resultMaxid = sqlsrv_fetch_array($querymax, SQLSRV_FETCH_ASSOC);
+
+    $standard_idtb =  $resultMaxid['Maxid'];
+
+    if ($stmt == false) {
+        die(print_r(sqlsrv_errors()));
+    } else {
+        echo "บันทึกข้อมูลสำเร็จ";
     }
 
-    // if (sqlsrv_query($conn, $query , $params)) {
-    //     $alert = '<script type="text/javascript">';
-    //     $alert .= 'alert("เพิ่มข้อมูลสำเร็จ !!");';
-    //     $alert .= 'window.location.href = "?page=status";';
-    //     $alert .= '</script>';
-    //     echo $alert;
-    //     exit();
-    // } else {
-    //     echo "Error: " . $query . "<br>" . sqlsrv_errors($conn);
-    // }
-    // sqlsrv_close($conn);
+    //1
+
+    $test = count($group_id);
+
+    //echo $test;
+
+
+    for ($i = 0; $i < $test; $i++) {
+        $a =  $group_id[$i];
+
+        //echo "<br>";
+
+        $sql2 = "INSERT INTO dimension_group ( group_id , standard_idtb  ) 
+      VALUES ('$a', '$standard_idtb')";
+
+        $stmt2 = sqlsrv_query($conn, $sql2);
+        if ($stmt2 == false) {
+            die(print_r(sqlsrv_errors()));
+        } else {
+            echo "บันทึกข้อมูลสำเร็จ1";
+        }
+    
+
+        //echo "<br>";
+    }
+
+    //2
+
+    $test2 = count($agency_id);
+
+    //echo $test;
+
+
+    for ($i = 0; $i < $test2; $i++) {
+        $a =  $agency_id[$i];
+
+        //echo "<br>";
+
+        $sql3 = "INSERT INTO dimension_agency ( agency_id , standard_idtb  ) 
+      VALUES ('$a', '$standard_idtb')";
+
+        $stmt3 = sqlsrv_query($conn, $sql3);
+        if ($stmt3 == false) {
+            die(print_r(sqlsrv_errors()));
+        } else {
+            echo "บันทึกข้อมูลสำเร็จ2";
+        }
+    
+
+        //echo "<br>";
+    }
+
+    //3
+
+    $test3 = count($type_id);
+
+    //echo $test;
+
+
+    for ($i = 0; $i < $test3; $i++) {
+        $a =  $type_id[$i];
+
+        //echo "<br>";
+
+        $sql3 = "INSERT INTO dimension_type ( type_id , standard_idtb  ) 
+      VALUES ('$a', '$standard_idtb')";
+
+        $stmt3 = sqlsrv_query($conn, $sql3);
+        if ($stmt3 == false) {
+            die(print_r(sqlsrv_errors()));
+        } else {
+            echo "บันทึกข้อมูลสำเร็จ3";
+        }
+    
+
+        //echo "<br>";
+    }
+
+    //echo "OK! SAVE";
+
+    //echo "<script>location.href='index.php?PG=1';</script>";
 }
-
-    $sql1 = "SELECT * FROM type_tb";
-    $query1 = sqlsrv_query($conn , $sql1);
-
-    // $sql2 = "SELECT * FROM group_tb";
-    // $query2 = sqlsrv_query($conn , $sql2);
-
-    // $sql3 = "SELECT * FROM agency_tb";
-    // $query3 = sqlsrv_query($conn , $sql3);
-?> 
